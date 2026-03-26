@@ -21,6 +21,8 @@ export default function AdminPage() {
   const [pushDate, setPushDate] = useState(() => new Date().toISOString().slice(0, 10));
   const [pushContent, setPushContent] = useState('');
   const [pushing, setPushing] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [forceGenerate, setForceGenerate] = useState(false);
 
   async function load() {
     setLoading(true);
@@ -62,6 +64,33 @@ export default function AdminPage() {
       setStatus({ type: 'error', msg: 'Failed to save' });
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function generateToday() {
+    setGenerating(true);
+    setStatus(null);
+    try {
+      const res = await fetch('/api/admin/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${secret}`,
+        },
+        body: JSON.stringify({ force: forceGenerate }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? 'Generation failed');
+      if (data.skipped) {
+        setStatus({ type: 'error', msg: `Today's digest already exists (${data.date}). Enable "Force regenerate" to overwrite.` });
+      } else {
+        setStatus({ type: 'success', msg: `Digest generated for ${data.date}` });
+        setForceGenerate(false);
+      }
+    } catch (e) {
+      setStatus({ type: 'error', msg: e instanceof Error ? e.message : 'Generation failed' });
+    } finally {
+      setGenerating(false);
     }
   }
 
@@ -192,6 +221,35 @@ export default function AdminPage() {
               className="px-4 py-2 text-xs font-medium bg-foreground text-background rounded hover:opacity-90 disabled:opacity-40 transition-opacity"
             >
               {loading ? 'Saving...' : 'Save settings'}
+            </button>
+          </div>
+        </section>
+
+        {/* Generate Today */}
+        <section>
+          <h2 className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold border-b border-border pb-2 mb-5">
+            Generate Today&apos;s Digest
+          </h2>
+          <div className="space-y-4">
+            <p className="text-xs text-muted-foreground">
+              Trigger AI generation for today&apos;s digest immediately. This fetches the latest builder
+              updates and produces a bilingual summary — takes about 1–2 minutes.
+            </p>
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={forceGenerate}
+                onChange={(e) => setForceGenerate(e.target.checked)}
+                className="rounded border-border"
+              />
+              <span className="text-xs text-foreground">Force regenerate (overwrite if already exists)</span>
+            </label>
+            <button
+              onClick={generateToday}
+              disabled={generating}
+              className="px-4 py-2 text-xs font-medium bg-foreground text-background rounded hover:opacity-90 disabled:opacity-40 transition-opacity"
+            >
+              {generating ? 'Generating… (this may take 1–2 min)' : 'Generate now'}
             </button>
           </div>
         </section>

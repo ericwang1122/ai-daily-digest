@@ -7,7 +7,7 @@ export interface DigestEntry {
   date: string;        // YYYY-MM-DD
   content: string;     // markdown text
   generatedAt: string; // ISO timestamp
-  source: 'auto' | 'push';
+  source: 'auto' | 'push' | 'manual';
 }
 
 export interface SiteSettings {
