@@ -28,7 +28,7 @@ export async function saveDigest(entry: DigestEntry): Promise<void> {
   await put(
     `${DIGEST_PREFIX}${entry.date}.json`,
     JSON.stringify(entry, null, 2),
-    { access: 'public', contentType: 'application/json', addRandomSuffix: false }
+    { access: 'private', contentType: 'application/json', addRandomSuffix: false }
   );
 }
 
@@ -36,7 +36,7 @@ export async function getDigest(date: string): Promise<DigestEntry | null> {
   try {
     const { blobs } = await list({ prefix: `${DIGEST_PREFIX}${date}.json` });
     if (blobs.length === 0) return null;
-    const res = await fetch(blobs[0].url, { next: { revalidate: 60 } });
+    const res = await fetch(blobs[0].downloadUrl);
     if (!res.ok) return null;
     return res.json() as Promise<DigestEntry>;
   } catch {
@@ -67,7 +67,7 @@ export async function getSettings(): Promise<SiteSettings> {
   try {
     const { blobs } = await list({ prefix: SETTINGS_KEY });
     if (blobs.length === 0) return DEFAULT_SETTINGS;
-    const res = await fetch(blobs[0].url, { next: { revalidate: 300 } });
+    const res = await fetch(blobs[0].downloadUrl);
     if (!res.ok) return DEFAULT_SETTINGS;
     return { ...DEFAULT_SETTINGS, ...((await res.json()) as Partial<SiteSettings>) };
   } catch {
@@ -79,7 +79,7 @@ export async function saveSettings(settings: Partial<SiteSettings>): Promise<voi
   const current = await getSettings();
   const updated = { ...current, ...settings };
   await put(SETTINGS_KEY, JSON.stringify(updated, null, 2), {
-    access: 'public',
+    access: 'private',
     contentType: 'application/json',
     addRandomSuffix: false,
   });
