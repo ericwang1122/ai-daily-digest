@@ -18,15 +18,6 @@ export async function GET(request: Request) {
     return NextResponse.json({ skipped: true, reason: 'disabled' });
   }
 
-  // Check if we should run at this hour
-  const currentHour = new Date().getUTCHours();
-  if (currentHour !== settings.cronHour) {
-    return NextResponse.json({
-      skipped: true,
-      reason: `not the right hour (current=${currentHour}, target=${settings.cronHour})`,
-    });
-  }
-
   const date = todayUTC();
 
   // Skip if we already have today's digest
