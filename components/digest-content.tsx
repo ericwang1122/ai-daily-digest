@@ -168,7 +168,7 @@ export function DigestContent({ date, content, generatedAt }: DigestContentProps
         </time>
       </header>
 
-      <div className="px-8 py-8 max-w-2xl">
+      <div className="px-8 py-8">
         {blocks.map((block, i) =>
           block.type === 'person' ? (
             <PersonCard key={i} text={block.text} />
