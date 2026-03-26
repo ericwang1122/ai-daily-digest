@@ -134,17 +134,13 @@ function PersonCard({ text }: { text: string }) {
   if (hasNoContent(bodyMarkdown)) return null;
 
   return (
-    <div className="rounded-xl border border-border overflow-hidden mb-3">
+    <div className="rounded-lg border border-border/60 px-5 pt-4 pb-3 mb-2.5">
       {name && (
-        <div className="bg-muted/60 px-5 py-2.5 border-b border-border">
-          <span className="text-[13px] font-semibold text-foreground">{name}</span>
-        </div>
+        <p className="text-[13px] font-semibold text-foreground mb-3">{name}</p>
       )}
-      <div className="px-5 py-4">
-        <ReactMarkdown remarkPlugins={[remarkGfm]} components={bodyComponents}>
-          {bodyMarkdown}
-        </ReactMarkdown>
-      </div>
+      <ReactMarkdown remarkPlugins={[remarkGfm]} components={bodyComponents}>
+        {bodyMarkdown}
+      </ReactMarkdown>
     </div>
   );
 }
