@@ -80,6 +80,8 @@ export async function generateDigest(language: 'en' | 'zh' | 'bilingual' = 'bili
 Today's date: ${todayDate}
 Language mode: ${language}
 
+IMPORTANT: Only include builders who have actual notable posts. Skip any builder with no meaningful content — do not write "No notable posts" or similar placeholder text for them.
+
 ${promptTweets ?? ''}
 
 ${promptPodcast ?? ''}

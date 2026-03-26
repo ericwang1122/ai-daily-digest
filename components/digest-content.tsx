@@ -107,6 +107,19 @@ function parseBlocks(content: string): Block[] {
   return blocks;
 }
 
+const NO_CONTENT_PATTERNS = [
+  /no notable posts?/i,
+  /no posts? this (week|period|day)/i,
+  /nothing notable/i,
+  /no updates?/i,
+  /^no\b/i,
+];
+
+function hasNoContent(body: string) {
+  const trimmed = body.trim();
+  return trimmed.length < 60 && NO_CONTENT_PATTERNS.some((re) => re.test(trimmed));
+}
+
 function PersonCard({ text }: { text: string }) {
   const paragraphs = text.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean);
   const first = paragraphs[0] ?? '';
@@ -117,6 +130,8 @@ function PersonCard({ text }: { text: string }) {
   const afterName = nameMatch ? first.slice(nameMatch[0].length).trim() : first;
   const bodyParts = [afterName, ...paragraphs.slice(1)].filter(Boolean);
   const bodyMarkdown = bodyParts.join('\n\n');
+
+  if (hasNoContent(bodyMarkdown)) return null;
 
   return (
     <div className="rounded-xl border border-border overflow-hidden mb-3">
