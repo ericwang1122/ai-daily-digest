@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 0 0% 7%;
+    --border: 0 0% 90%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 42%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 7%;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Digest markdown typography */
+  .digest-prose h2 {
+    @apply text-xs font-semibold uppercase tracking-widest text-muted-foreground border-b border-border pb-2 mb-4 mt-8 first:mt-0;
+  }
+
+  .digest-prose h3 {
+    @apply text-sm font-semibold text-foreground mb-1 mt-6 leading-snug;
+  }
+
+  .digest-prose p {
+    @apply text-sm leading-relaxed text-foreground/90 mb-3;
+  }
+
+  .digest-prose hr {
+    @apply border-border my-6;
+  }
+
+  .digest-prose a {
+    @apply text-xs font-mono text-muted-foreground underline underline-offset-2 hover:text-foreground transition-colors break-all;
+  }
+
+  .digest-prose strong {
+    @apply font-semibold text-foreground;
+  }
+
+  .digest-prose ul {
+    @apply list-disc list-inside space-y-1 mb-3 text-sm text-foreground/90;
+  }
+
+  .digest-prose li {
+    @apply text-sm leading-relaxed;
+  }
+
+  .digest-prose code {
+    @apply font-mono text-xs bg-muted px-1 py-0.5 rounded;
+  }
+
+  .digest-prose blockquote {
+    @apply border-l-2 border-border pl-4 italic text-muted-foreground text-sm my-3;
+  }
+}
