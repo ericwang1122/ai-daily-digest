@@ -44,24 +44,26 @@ export function DigestContent({ date, content, generatedAt }: DigestContentProps
                 </h2>
               ),
               h3: ({ children }) => (
-                <h3 className="text-sm font-semibold text-foreground mb-1 mt-6 leading-snug">
-                  {children}
-                </h3>
+                <div className="mt-10 mb-3 pt-6 border-t-2 border-border">
+                  <h3 className="text-sm font-semibold text-foreground leading-snug pl-3 border-l-2 border-foreground/40">
+                    {children}
+                  </h3>
+                </div>
               ),
               p: ({ children }) => (
-                <p className="text-sm leading-relaxed text-foreground/90 mb-3">{children}</p>
+                <p className="text-sm leading-relaxed text-foreground/85 mb-3 pl-3">{children}</p>
               ),
               a: ({ href, children }) => (
                 <a
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs font-mono text-muted-foreground underline underline-offset-2 hover:text-foreground transition-colors break-all"
+                  className="block text-[11px] font-mono text-muted-foreground/60 hover:text-muted-foreground transition-colors break-all pl-3 mb-4"
                 >
                   {children}
                 </a>
               ),
-              hr: () => <hr className="border-border my-8" />,
+              hr: () => <hr className="border-border my-10" />,
               strong: ({ children }) => (
                 <strong className="font-semibold text-foreground">{children}</strong>
               ),

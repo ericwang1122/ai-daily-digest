@@ -30,19 +30,19 @@
   }
 
   .digest-prose h3 {
-    @apply text-sm font-semibold text-foreground mb-1 mt-6 leading-snug;
+    @apply text-sm font-semibold text-foreground leading-snug pl-3 border-l-2 border-foreground/40;
   }
 
   .digest-prose p {
-    @apply text-sm leading-relaxed text-foreground/90 mb-3;
+    @apply text-sm leading-relaxed text-foreground/85 mb-3 pl-3;
   }
 
   .digest-prose hr {
-    @apply border-border my-6;
+    @apply border-border my-10;
   }
 
   .digest-prose a {
-    @apply text-xs font-mono text-muted-foreground underline underline-offset-2 hover:text-foreground transition-colors break-all;
+    @apply block text-[11px] font-mono text-muted-foreground/60 hover:text-muted-foreground transition-colors break-all pl-3 mb-4;
   }
 
   .digest-prose strong {
