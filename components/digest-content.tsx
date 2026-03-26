@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { formatDate, formatDateCN } from '@/lib/utils';
@@ -8,6 +9,7 @@ interface DigestContentProps {
   date: string;
   content: string;
   generatedAt: string;
+  dates?: string[];
 }
 
 const bodyComponents = {
@@ -145,12 +147,38 @@ function PersonCard({ text }: { text: string }) {
   );
 }
 
-export function DigestContent({ date, content, generatedAt }: DigestContentProps) {
+export function DigestContent({ date, content, generatedAt, dates = [] }: DigestContentProps) {
   const blocks = parseBlocks(content);
+  const idx = dates.indexOf(date);
+  const prevDate = idx >= 0 && idx + 1 < dates.length ? dates[idx + 1] : null;
+  const nextDate = idx > 0 ? dates[idx - 1] : null;
 
   return (
     <article className="flex-1 min-w-0 overflow-y-auto">
-      <header className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b border-border px-8 py-4 flex items-baseline justify-between">
+      {/* Mobile-only top bar */}
+      <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-border bg-muted/30">
+        <Link href="/" className="block">
+          <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">AI Daily</span>
+          <p className="text-sm font-semibold text-foreground leading-tight">Digest</p>
+        </Link>
+        <div className="flex items-center gap-3">
+          {prevDate && (
+            <Link href={`/${prevDate}`} className="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1">
+              ← Prev
+            </Link>
+          )}
+          {nextDate && (
+            <Link href={`/${nextDate}`} className="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1">
+              Next →
+            </Link>
+          )}
+          <Link href="/admin" className="text-[10px] uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors">
+            Admin
+          </Link>
+        </div>
+      </div>
+
+      <header className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b border-border px-4 md:px-8 py-3 md:py-4 flex items-baseline justify-between">
         <div>
           <h2 className="text-sm font-semibold text-foreground">{formatDate(date)}</h2>
           <p className="text-[11px] text-muted-foreground mt-0.5">{formatDateCN(date)}</p>
@@ -164,7 +192,7 @@ export function DigestContent({ date, content, generatedAt }: DigestContentProps
         </time>
       </header>
 
-      <div className="px-8 py-8">
+      <div className="px-4 md:px-8 py-5 md:py-8">
         {blocks.map((block, i) =>
           block.type === 'person' ? (
             <PersonCard key={i} text={block.text} />

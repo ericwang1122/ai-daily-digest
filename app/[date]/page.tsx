@@ -31,6 +31,7 @@ export default async function DigestPage({ params }: PageProps) {
         date={digest.date}
         content={digest.content}
         generatedAt={digest.generatedAt}
+        dates={allDates}
       />
     </div>
   );

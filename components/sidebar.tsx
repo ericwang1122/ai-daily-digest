@@ -8,7 +8,7 @@ interface SidebarProps {
 
 export function Sidebar({ dates, currentDate }: SidebarProps) {
   return (
-    <aside className="w-48 shrink-0 border-r border-border bg-muted/30 flex flex-col">
+    <aside className="hidden md:flex w-48 shrink-0 border-r border-border bg-muted/30 flex-col">
       <div className="px-4 py-5 border-b border-border">
         <Link href="/" className="block">
           <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
