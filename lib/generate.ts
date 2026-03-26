@@ -3,7 +3,7 @@
  * Fetches the same public feeds as the local skill, then uses AI SDK to remix.
  */
 import { generateText } from 'ai';
-import { anthropic } from '@ai-sdk/anthropic';
+import { google } from '@ai-sdk/google';
 
 const FEED_X_URL =
   'https://raw.githubusercontent.com/zarazhangrui/follow-builders/main/feed-x.json';
@@ -105,7 +105,7 @@ ${language !== 'en' ? (promptTranslate ?? '') : ''}`;
   );
 
   const { text } = await generateText({
-    model: anthropic('claude-sonnet-4-5'),
+    model: google('gemini-2.0-flash'),
     system: systemPrompt,
     prompt: `Here is today's content to remix into a digest:\n\n${contentBlob}\n\nProduce the full digest now, following all instructions above.`,
     maxTokens: 4096,
