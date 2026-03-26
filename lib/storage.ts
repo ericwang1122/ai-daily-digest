@@ -1,4 +1,4 @@
-import { put, list } from '@vercel/blob';
+import { put, list, get } from '@vercel/blob';
 
 const DIGEST_PREFIX = 'digests/';
 const SETTINGS_KEY = 'config/settings.json';
@@ -34,11 +34,10 @@ export async function saveDigest(entry: DigestEntry): Promise<void> {
 
 export async function getDigest(date: string): Promise<DigestEntry | null> {
   try {
-    const { blobs } = await list({ prefix: `${DIGEST_PREFIX}${date}.json` });
-    if (blobs.length === 0) return null;
-    const res = await fetch(blobs[0].downloadUrl);
-    if (!res.ok) return null;
-    return res.json() as Promise<DigestEntry>;
+    const result = await get(`${DIGEST_PREFIX}${date}.json`, { access: 'private' });
+    if (!result) return null;
+    const text = await new Response(result.stream).text();
+    return JSON.parse(text) as DigestEntry;
   } catch {
     return null;
   }
@@ -65,11 +64,10 @@ export async function getLatestDate(): Promise<string | null> {
 
 export async function getSettings(): Promise<SiteSettings> {
   try {
-    const { blobs } = await list({ prefix: SETTINGS_KEY });
-    if (blobs.length === 0) return DEFAULT_SETTINGS;
-    const res = await fetch(blobs[0].downloadUrl);
-    if (!res.ok) return DEFAULT_SETTINGS;
-    return { ...DEFAULT_SETTINGS, ...((await res.json()) as Partial<SiteSettings>) };
+    const result = await get(SETTINGS_KEY, { access: 'private' });
+    if (!result) return DEFAULT_SETTINGS;
+    const text = await new Response(result.stream).text();
+    return { ...DEFAULT_SETTINGS, ...(JSON.parse(text) as Partial<SiteSettings>) };
   } catch {
     return DEFAULT_SETTINGS;
   }
