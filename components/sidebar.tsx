@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { cn, formatDate } from '@/lib/utils';
+import { AboutDialog } from '@/components/about-dialog';
 
 interface SidebarProps {
   dates: string[];
@@ -52,10 +53,12 @@ export function Sidebar({ dates, currentDate }: SidebarProps) {
         )}
       </nav>
 
-      <div className="px-4 py-3 border-t border-border">
+      <div className="px-4 py-4 border-t border-border space-y-2.5">
+        <AboutDialog />
+        <p className="text-[10px] text-muted-foreground/60">Eric 制作</p>
         <Link
           href="/admin"
-          className="text-[10px] uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
+          className="block text-[10px] uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
         >
           Admin
         </Link>
