@@ -184,9 +184,10 @@ export function DigestContent({ date, content, generatedAt, dates = [] }: Digest
           <p className="text-[11px] text-muted-foreground mt-0.5">{formatDateCN(date)}</p>
         </div>
         <time className="text-[10px] font-mono text-muted-foreground" dateTime={generatedAt}>
-          {new Date(generatedAt).toLocaleTimeString('en-US', {
+          {new Date(generatedAt).toLocaleTimeString('zh-CN', {
             hour: '2-digit',
             minute: '2-digit',
+            timeZone: 'Asia/Shanghai',
             timeZoneName: 'short',
           })}
         </time>
