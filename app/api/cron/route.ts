@@ -7,9 +7,15 @@ export const runtime = 'nodejs';
 export const maxDuration = 300;
 
 export async function GET(request: Request) {
-  // Verify Vercel cron secret
+  // Auth: Vercel CRON_SECRET header OR external secret via query param
   const authHeader = request.headers.get('authorization');
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  const { searchParams } = new URL(request.url);
+  const querySecret = searchParams.get('secret');
+
+  const isVercelCron = authHeader === `Bearer ${process.env.CRON_SECRET}`;
+  const isExternalCron = querySecret && querySecret === process.env.CRON_API_SECRET;
+
+  if (!isVercelCron && !isExternalCron) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
