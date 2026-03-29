@@ -28,7 +28,7 @@ export async function saveDigest(entry: DigestEntry): Promise<void> {
   await put(
     `${DIGEST_PREFIX}${entry.date}.json`,
     JSON.stringify(entry, null, 2),
-    { access: 'private', contentType: 'application/json', addRandomSuffix: false }
+    { access: 'private', contentType: 'application/json', addRandomSuffix: false, allowOverwrite: true }
   );
 }
 
@@ -80,5 +80,6 @@ export async function saveSettings(settings: Partial<SiteSettings>): Promise<voi
     access: 'private',
     contentType: 'application/json',
     addRandomSuffix: false,
+    allowOverwrite: true,
   });
 }
