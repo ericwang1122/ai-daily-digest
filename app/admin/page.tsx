@@ -19,6 +19,7 @@ export default function AdminPage() {
   const [status, setStatus] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
   const [generating, setGenerating] = useState(false);
   const [forceGenerate, setForceGenerate] = useState(false);
+  const [generateDate, setGenerateDate] = useState('');
 
   async function load() {
     setLoading(true);
@@ -73,7 +74,7 @@ export default function AdminPage() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${secret}`,
         },
-        body: JSON.stringify({ force: forceGenerate }),
+        body: JSON.stringify({ force: forceGenerate, ...(generateDate && { date: generateDate }) }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? 'Generation failed');
@@ -200,16 +201,28 @@ export default function AdminPage() {
           </div>
         </section>
 
-        {/* Generate Today */}
+        {/* Generate Digest */}
         <section>
           <h2 className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold border-b border-border pb-2 mb-5">
-            Generate Today&apos;s Digest
+            Generate Digest
           </h2>
           <div className="space-y-4">
             <p className="text-xs text-muted-foreground">
-              Trigger AI generation for today&apos;s digest immediately. This fetches the latest builder
-              updates and produces a bilingual summary — takes about 1–2 minutes.
+              Trigger AI generation immediately. Leave date empty for today, or enter a past date to backfill.
             </p>
+            <div>
+              <label className="block text-sm text-foreground mb-2">Date (optional)</label>
+              <input
+                type="date"
+                value={generateDate}
+                onChange={(e) => setGenerateDate(e.target.value)}
+                className="w-full px-3 py-2 text-sm border border-border bg-background rounded focus:outline-none focus:ring-1 focus:ring-foreground"
+                placeholder="YYYY-MM-DD"
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Leave empty to generate for today ({new Date().toISOString().slice(0, 10)})
+              </p>
+            </div>
             <label className="flex items-center gap-2 cursor-pointer select-none">
               <input
                 type="checkbox"

@@ -82,6 +82,14 @@ Language mode: ${language}
 
 IMPORTANT: Only include builders who have actual notable posts. Skip any builder with no meaningful content — do not write "No notable posts" or similar placeholder text for them.
 
+OUTPUT FORMAT RULES (MUST follow strictly):
+- Use "# AI Builders Digest — ${todayDate}" as the title
+- Use "## Section Name" for section headers (e.g. "## X / Twitter Section")
+- For EACH person, start their section with their name in bold on its own paragraph: "**Name, Title at Company**"
+- Follow with their content paragraphs and tweet/source URLs
+- Use "---" as dividers between major sections
+- NEVER use "### " (h3) headers for person names — always use "**Bold Name**" paragraph format
+
 ${promptTweets ?? ''}
 
 ${promptPodcast ?? ''}
