@@ -82,13 +82,41 @@ Language mode: ${language}
 
 IMPORTANT: Only include builders who have actual notable posts. Skip any builder with no meaningful content — do not write "No notable posts" or similar placeholder text for them.
 
-OUTPUT FORMAT RULES (MUST follow strictly):
-- Use "# AI Builders Digest — ${todayDate}" as the title
-- Use "## Section Name" for section headers (e.g. "## X / Twitter Section")
-- For EACH person, start their section with their name in bold on its own paragraph: "**Name, Title at Company**"
-- Follow with their content paragraphs and tweet/source URLs
-- Use "---" as dividers between major sections
-- NEVER use "### " (h3) headers for person names — always use "**Bold Name**" paragraph format
+OUTPUT FORMAT (MUST follow this exact structure — no deviation allowed):
+
+# AI Builders Digest — ${todayDate}
+
+## X / Twitter Section
+
+**Person Name, Title at Company**
+
+English summary of what this person posted. Keep it concise but informative, 1-3 sentences.
+https://x.com/handle/status/xxxxx
+
+Chinese translation of the same summary above.
+https://x.com/handle/status/xxxxx
+
+**Another Person, Title at Company**
+
+English summary paragraph.
+https://x.com/handle/status/xxxxx
+
+Chinese translation paragraph.
+https://x.com/handle/status/xxxxx
+
+---
+
+## Podcast Section
+
+(Same pattern: **Name** then English+URL then Chinese+URL)
+
+STRICT RULES:
+- Each person MUST start with "**Name, Title**" as a standalone bold paragraph
+- English summary first, then its source URL, then Chinese translation, then the same URL
+- NEVER use ### headers for person names
+- NEVER combine multiple people in one paragraph
+- NEVER omit the source URLs
+- NEVER change the section header names
 
 ${promptTweets ?? ''}
 
